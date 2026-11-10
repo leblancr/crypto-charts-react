@@ -1,0 +1,17 @@
+.app {
+  min-height: 100vh;
+}
+
+.app-header {
+  padding: 20px 32px;
+  border-bottom: 1px solid #374151;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.app-content {
+  padding: 32px;
+}
