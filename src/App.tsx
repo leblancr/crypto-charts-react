@@ -37,10 +37,6 @@ function App() {
         </nav>
       </header>
 
-      <section className="app-content">
-        <p>Cryptocurrency market dashboard</p>
-      </section>
-
       {authMode && (
         <AuthModal
           isRegister={authMode === 'register'}

@@ -13,8 +13,8 @@
 
 .app-header h1 {
   margin: 0;
-  font-size: 24px;
-  color: blue;
+  font-size: 28px;
+  color: #4db6ac;
 }
 
 .auth-buttons {
@@ -35,5 +35,8 @@
 }
 
 .app-content {
-  padding: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  text-align: center;
 }
