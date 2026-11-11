@@ -1,15 +1,37 @@
+
 .app {
   min-height: 100vh;
 }
 
 .app-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 20px 32px;
-  border-bottom: 1px solid #374151;
 }
 
 .app-header h1 {
   margin: 0;
   font-size: 24px;
+  color: blue;
+}
+
+.auth-buttons {
+  position: absolute;
+  right: 32px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.auth-buttons button {
+  padding: 8px 12px;
+  color: #ccc;
+  background: #1f1f1f;
+  border: 1px solid #4db6ac;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .app-content {
