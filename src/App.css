@@ -1,42 +1,194 @@
+* {
+    box-sizing: border-box;
+}
 
 .app {
-  min-height: 100vh;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 .app-header {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 32px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 32px;
 }
 
 .app-header h1 {
-  margin: 0;
-  font-size: 28px;
-  color: #4db6ac;
+    margin: 0;
+    color: #4db6ac;
+    font-size: 28px;
 }
 
 .auth-buttons {
-  position: absolute;
-  right: 32px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+    position: absolute;
+    right: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .auth-buttons button {
-  padding: 8px 12px;
-  color: #ccc;
-  background: #1f1f1f;
-  border: 1px solid #4db6ac;
-  border-radius: 4px;
-  cursor: pointer;
+    padding: 8px 12px;
+    color: #ccc;
+    background: #1f1f1f;
+    border: 1px solid #4db6ac;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
-.app-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 24px;
-  text-align: center;
+.demo-layout {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    align-items: start;
+    gap: 28px;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.demo-watchlist,
+.watchlist-section {
+    min-width: 0;
+    padding: 18px;
+    background: #171f30;
+    border: 1px solid #46536a;
+    border-radius: 8px;
+}
+
+.demo-watchlist h2,
+.watchlist-section h2 {
+    margin: 0 0 12px;
+    color: #4db6ac;
+    font-size: 19px;
+}
+
+.demo-watchlist h3 {
+    margin: 20px 0 10px;
+    color: #eee;
+    font-size: 14px;
+}
+
+.demo-controls,
+.coin-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.demo-controls select,
+.coin-controls select {
+    width: 0;
+    min-width: 100%;
+    padding: 9px;
+    color: white;
+    background: #202b3e;
+    border: 1px solid #64748b;
+    border-radius: 5px;
+}
+
+.demo-controls button,
+.coin-controls button,
+.remove-button {
+    align-self: flex-start;
+    padding: 9px 14px;
+    color: #101820;
+    background: #4db6ac;
+    border: 0;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.demo-controls button:disabled,
+.coin-controls button:disabled,
+.remove-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+
+.demo-coin-list,
+.coin-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.demo-coin,
+.coin-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 11px;
+    color: #eee;
+    text-align: left;
+    background: #202b3e;
+    border: 1px solid #46536a;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.demo-coin:hover,
+.coin-button:hover {
+    border-color: #4db6ac;
+}
+
+.demo-coin.selected,
+.coin-button.selected {
+    background: #183b38;
+    border: 2px solid #4db6ac;
+}
+
+.demo-chart-panel {
+    min-width: 0;
+    width: 100%;
+}
+
+.watchlist-page {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+}
+
+.watchlist-section p {
+    color: #b9c1ce;
+    line-height: 1.5;
+}
+
+.coin-controls label {
+    color: #ccc;
+}
+
+.remove-button {
+    margin-top: 14px;
+}
+
+@media (max-width: 700px) {
+    .app-header {
+        justify-content: flex-start;
+        padding: 20px;
+    }
+
+    .app-header h1 {
+        font-size: 22px;
+    }
+
+    .auth-buttons {
+        right: 20px;
+        gap: 6px;
+    }
+
+    .demo-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        align-items: start;
+        gap: 16px;
+        max-width: none;
+        margin: 0;
+        padding: 16px;
+    }
 }

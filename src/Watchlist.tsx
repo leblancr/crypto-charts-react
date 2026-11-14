@@ -105,34 +105,78 @@ export default function Watchlist({onCoinSelected, onUnauthorized}: Props) {
     loadWatchlist()
   }, [])
 
-  return (
-    <>
-      <div>
-        <select value={newCoin} onChange={(e) => setNewCoin(e.target.value)}>
-          <option value="">-- Select coin --</option>
-          {topCoins.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.symbol.toUpperCase()} - {c.name}
-            </option>
-          ))}
-        </select>
-        <button onClick={addCoin}>Add Coin</button>
-        <button onClick={removeCoin} disabled={!selected}>Remove</button>
-        {statusMsg && <p style={{border: '1px solid #000', padding: 4}}>{statusMsg}</p>}
-      </div>
 
-      <div style={{marginTop: '1rem'}}>
-        {watchlist.map((coin) => (
-          <button
-            key={coin.coingecko_id}
-            className={coin.coingecko_id === selected ? 'selected' : ''}
-            onClick={() => select(coin.coingecko_id)}
+  return (
+    <div className="watchlist-page">
+
+      <section className="watchlist-section">
+        <h2>Browse Coins</h2>
+        <p>Browse the top 50 cryptocurrencies and add coins to your watchlist.</p>
+
+        <div className="coin-controls">
+          <label htmlFor="new-coin">Available cryptocurrencies:</label>
+
+          <select
+            id="new-coin"
+            value={newCoin}
+            onChange={(e) => setNewCoin(e.target.value)}
           >
-            {coin.coingecko_id.toUpperCase()}
-            {coin.price ? ` $${coin.price.toLocaleString()}` : ''}
+            <option value="">Select a coin...</option>
+            {topCoins.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.symbol.toUpperCase()} - {c.name}
+              </option>
+            ))}
+          </select>
+
+          <button onClick={addCoin} disabled={!newCoin}>
+            Add to Watchlist
           </button>
-        ))}
-      </div>
-    </>
+        </div>
+      </section>
+
+      <section className="watchlist-section">
+        <h2>Your Watchlist</h2>
+        <p>Your saved cryptocurrencies. Select a coin to view its price chart.</p>
+
+        <div className="coin-list">
+          {watchlist.map((coin) => (
+            <button
+              type="button"
+              key={coin.coingecko_id}
+              className={`coin-button ${
+                coin.coingecko_id === selected ? 'selected' : ''
+              }`}
+              aria-pressed={coin.coingecko_id === selected}
+              onClick={() => select(coin.coingecko_id)}
+            >
+              <strong>{coin.coingecko_id.toUpperCase()}</strong>
+              <span>
+                {coin.price != null
+                  ? `$${coin.price.toLocaleString()}`
+                  : 'Price unavailable'}
+              </span>
+              <span>
+                {coin.coingecko_id === selected ? 'Currently selected' : 'View chart'}
+              </span>
+            </button>
+          ))}
+
+          {watchlist.length === 0 && (
+            <p>Your watchlist is empty. Browse coins above to add some.</p>
+          )}
+        </div>
+
+        <button
+          className="remove-button"
+          onClick={removeCoin}
+          disabled={!selected}
+        >
+          Remove Selected Coin
+        </button>
+
+        {statusMsg && <p role="status">{statusMsg}</p>}
+      </section>
+    </div>
   )
 }
