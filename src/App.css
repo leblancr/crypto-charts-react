@@ -147,28 +147,6 @@
     width: 100%;
 }
 
-cat > > src
-
-/
-App.css
-
-<
-<
-'EOF'
-
-.demo-watchlist {
-    padding: 12px;
-}
-
-.demo-watchlist h3 {
-    margin: 0 0 10px;
-}
-
-.demo-coin-list {
-    margin-bottom: 16px;
-}
-
-EOF
 .watchlist-page {
     display: flex;
     flex-direction: column;
