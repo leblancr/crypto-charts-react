@@ -108,7 +108,25 @@ function App() {
       ) : (
         <div className="demo-layout">
           <section className="demo-watchlist">
-            <h2>Your Watchlist</h2>
+            <h3>Your Watchlist</h3>
+            <div className="demo-coin-list">
+              {demoCoins.map((id) => {
+                const coin = topCoins.find((c) => c.id === id)
+                return (
+                  <button
+                    type="button"
+                    key={id}
+                    className={demoSelected === id ? 'demo-coin selected' : 'demo-coin'}
+                    onClick={() => setDemoSelected(id)}
+                  >
+                    <strong>
+                      {coin ? `${coin.name} (${coin.symbol.toUpperCase()})` : id.toUpperCase()}
+                    </strong>
+                  </button>
+                )
+              })}
+            </div>
+
             <div className="demo-controls">
               <select
                 value={newDemoCoin}
@@ -124,24 +142,6 @@ function App() {
               <button onClick={addDemoCoin} disabled={!newDemoCoin}>
                 Add Coin
               </button>
-            </div>
-
-            <h3>Saved Coins</h3>
-            <div className="demo-coin-list">
-              {demoCoins.map((id) => {
-                const coin = topCoins.find((c) => c.id === id)
-                return (
-                  <button
-                    type="button"
-                    key={id}
-                    className={demoSelected === id ? 'demo-coin selected' : 'demo-coin'}
-                    onClick={() => setDemoSelected(id)}
-                  >
-                    <strong>
-                      {coin ? `${coin.name} (${coin.symbol.toUpperCase()})` : id.toUpperCase()}
-                    </strong>
-                  </button>                )
-              })}
             </div>
           </section>
 
