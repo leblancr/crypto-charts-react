@@ -66,3 +66,28 @@
 .auth-message {
   color: #4ade80;
 }
+
+.auth-modal h2 {
+  color: #d1d5db;
+}
+
+.auth-modal button {
+  color: #101820;
+  background: #4db6ac;
+  border: 0;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.auth-modal .auth-close {
+  color: #ccc;
+  background: #1f1f1f;
+  border: 1px solid #4db6ac;
+}
+
+.auth-modal .auth-link {
+  color: #60a5fa;
+  background: none;
+  border: none;
+  font-weight: normal;
+}

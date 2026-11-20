@@ -243,3 +243,57 @@
 .auth-buttons {
     right: 48px;
 }
+
+.demo-controls .remove-button {
+    color: #ccc;
+    background: #1f1f1f;
+    border: 1px solid #4db6ac;
+}
+
+.sidebar-status {
+    margin: 12px 0 0;
+    color: #9aa7b8;
+    font-size: 12px;
+    text-align: center;
+}
+
+.demo-coin-row {
+    position: relative;
+}
+
+.coin-remove {
+    position: absolute;
+    top: 3px;
+    right: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1;
+    color: #9aa7b8;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.demo-coin-row:hover .coin-remove,
+.coin-remove:focus-visible {
+    opacity: 1;
+}
+
+.coin-remove:hover {
+    color: #d1d5db;
+    background: #3a4658;
+}
+
+.sidebar-status {
+    margin: 12px 0 0;
+    color: #9aa7b8;
+    font-size: 12px;
+    text-align: center;
+}

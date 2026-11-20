@@ -2,10 +2,12 @@ import {useEffect, useState} from 'react'
 import AuthModal from './AuthModal'
 import './App.css'
 import Watchlist from './Watchlist'
+import CoinSidebar from './CoinSidebar'
+import type {TopCoin} from './CoinSidebar'
 import PriceChart from './PriceChart'
+import {API_BASE} from './lib/constants'
 
 type AuthMode = 'login' | 'register' | null
-type TopCoin = { id: string; symbol: string; name: string }
 
 function App() {
   const [authMode, setAuthMode] = useState<AuthMode>(null)
@@ -13,15 +15,12 @@ function App() {
   const [username, setUsername] = useState<string | null>(null)
   const [selected, setSelected] = useState<string | null>(null)
 
-  // Public landing-page demonstration
+  // Logged-out demo watchlist
   const [demoSelected, setDemoSelected] = useState('bitcoin')
-  const [demoCoins, setDemoCoins] = useState([
-    'bitcoin',
-    'ethereum',
-    'solana',
-  ])
-  const [topCoins, setTopCoins] = useState<TopCoin[]>([])
+  const [demoCoins, setDemoCoins] = useState(['bitcoin', 'ethereum', 'solana'])
   const [newDemoCoin, setNewDemoCoin] = useState('')
+
+  const [topCoins, setTopCoins] = useState<TopCoin[]>([])
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token')
@@ -32,7 +31,7 @@ function App() {
       setUsername(storedUser)
     }
 
-    fetch('http://127.0.0.1:9000/coins/top50')
+    fetch(`${API_BASE}/coins/top50`)
       .then((resp) => resp.json())
       .then(setTopCoins)
       .catch(console.error)
@@ -57,10 +56,15 @@ function App() {
 
   function addDemoCoin() {
     if (!newDemoCoin || demoCoins.includes(newDemoCoin)) return
-
     setDemoCoins([...demoCoins, newDemoCoin])
     setDemoSelected(newDemoCoin)
     setNewDemoCoin('')
+  }
+
+  function removeDemoCoin(id: string) {
+    const remaining = demoCoins.filter((c) => c !== id)
+    setDemoCoins(remaining)
+    if (demoSelected === id) setDemoSelected(remaining[0] ?? '')
   }
 
   const loggedIn = Boolean(username && token)
@@ -94,59 +98,32 @@ function App() {
         />
       )}
 
-
-      {loggedIn ? (
-        <div className="demo-layout">
+      <div className="demo-layout">
+        {loggedIn ? (
           <Watchlist
+            topCoins={topCoins}
             onCoinSelected={setSelected}
             onUnauthorized={logout}
           />
-          <div className="demo-chart-panel">
-            {selected && <PriceChart symbol={selected}/>}
-          </div>
-        </div>
-      ) : (
-        <div className="demo-layout">
-          <section className="demo-watchlist">
-            <div className="demo-coin-list">
-              {demoCoins.map((id) => {
-                const coin = topCoins.find((c) => c.id === id)
-                return (
-                  <button
-                    type="button"
-                    key={id}
-                    className={demoSelected === id ? 'demo-coin selected' : 'demo-coin'}
-                    onClick={() => setDemoSelected(id)}
-                  >
-                    <strong>
-                      {coin ? `${coin.name} (${coin.symbol.toUpperCase()})` : id.toUpperCase()}
-                    </strong>
-                  </button>
-                )
-              })}
-            </div>
+        ) : (
+          <CoinSidebar
+            coinIds={demoCoins}
+            topCoins={topCoins}
+            selected={demoSelected}
+            onSelect={setDemoSelected}
+            newCoin={newDemoCoin}
+            onNewCoinChange={setNewDemoCoin}
+            onAdd={addDemoCoin}
+            onRemove={removeDemoCoin}
+          />
+        )}
 
-            <div className="demo-controls">
-              <select
-                value={newDemoCoin}
-                onChange={(e) => setNewDemoCoin(e.target.value)}
-              >
-                <option value="">Add coin...</option>
-                {topCoins.map((coin) => (
-                  <option key={coin.id} value={coin.id}>
-                    {coin.symbol.toUpperCase()} - {coin.name}
-                  </option>
-                ))}
-              </select>
-              {newDemoCoin && <button onClick={addDemoCoin}>Add Coin</button>}
-            </div>
-          </section>
-
-          <div className="demo-chart-panel">
-            <PriceChart symbol={demoSelected}/>
-          </div>
+        <div className="demo-chart-panel">
+          {loggedIn
+            ? selected && <PriceChart symbol={selected}/>
+            : demoSelected && <PriceChart symbol={demoSelected}/>}
         </div>
-      )}
+      </div>
     </main>
   )
 }
