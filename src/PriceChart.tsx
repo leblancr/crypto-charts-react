@@ -5,6 +5,13 @@ import './PriceChart.css'
 
 type Props = { symbol: string; ticker?: string | null }
 
+function describeFailure(status: number): string {
+  if (status === 429) return 'Too many requests. Please wait a moment before choosing another coin. (Error 429)'
+  if (status === 404) return 'No price data was found for this coin. (Error 404)'
+  if (status >= 500) return `The price server ran into a problem. (Error ${status})`
+  return `Price data could not be loaded. (Error ${status})`
+}
+
 export default function PriceChart({symbol, ticker = null}: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const chartRef = useRef<Chart | null>(null)
@@ -25,7 +32,7 @@ export default function PriceChart({symbol, ticker = null}: Props) {
         if (cancelled) return
 
         if (!historyResp.ok) {
-          throw new Error(`Chart request failed: ${historyResp.status}`)
+          throw new Error(describeFailure(historyResp.status))
         }
 
         const data = await historyResp.json()
@@ -107,9 +114,13 @@ export default function PriceChart({symbol, ticker = null}: Props) {
           }
         })
       } catch (error) {
+        console.error('Chart load failed:', error)
         if (!cancelled) {
+          chartRef.current?.destroy()
+          chartRef.current = null
+          setCurrentPrice(null)
           setErrorMessage(
-            error instanceof Error ? error.message : 'Unable to load chart.'
+            error instanceof TypeError ? (navigator.onLine ? `Unable to reach the server: ${error.message}` : 'You appear to be offline. Check your internet connection.') : error instanceof Error ? error.message : 'Something unexpected went wrong while loading price data.'
           )
         }
       }
