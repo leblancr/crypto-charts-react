@@ -108,7 +108,6 @@ function App() {
       ) : (
         <div className="demo-layout">
           <section className="demo-watchlist">
-            <h3>Your Watchlist</h3>
             <div className="demo-coin-list">
               {demoCoins.map((id) => {
                 const coin = topCoins.find((c) => c.id === id)
@@ -139,9 +138,7 @@ function App() {
                   </option>
                 ))}
               </select>
-              <button onClick={addDemoCoin} disabled={!newDemoCoin}>
-                Add Coin
-              </button>
+              {newDemoCoin && <button onClick={addDemoCoin}>Add Coin</button>}
             </div>
           </section>
 
